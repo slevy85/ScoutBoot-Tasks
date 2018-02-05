@@ -274,17 +274,6 @@ public class OptionsForm extends AbstractForm {
 			protected String getConfiguredLabel() {
 				return TEXTS.get("ApplyChanges");
 			}
-
-			@Override
-			protected void execClickAction() {
-				if (getChangePasswordBox().getValue()) {
-					if (!validatePasswordChange()) {
-						return;
-					}
-				}
-
-				super.execClickAction();
-			}
 		}
 
 		private boolean validatePasswordChange() {
@@ -318,7 +307,7 @@ public class OptionsForm extends AbstractForm {
 			User user = userService.get(getUserId());
 			String password = getOldPasswordField().getValue();
 
-			if (passwordService.passwordIsValid(password, user.getPasswordHash())) {
+			if (!passwordService.passwordIsValid(password, user.getPasswordHash())) {
 				getOldPasswordField().setError(TEXTS.get("PasswordInvalid"));
 				return false;
 			}
